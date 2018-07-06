@@ -1,22 +1,30 @@
 package com.marketahalikova.hibernatetest.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Project {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, length = 11)
     private Long id;
+    @Column(name = "project_name", nullable = false, unique = true, length = 200)
     private String name;
     private String description;
+    @Column(name = "url", nullable = false, length = 500)
     private String gitURL;
-    private List<Font> listFonts;
 
-    public Project() {
-        listFonts = new ArrayList<>();
-    }
+//    private List<Font> listFonts;
+//
+//    public Project() {
+//        listFonts = new ArrayList<>();
+//    }
 
     public Project(String name, String gitURL) {
-        this();
+//        this();
         this.name = name;
         this.gitURL = gitURL;
     }
@@ -53,22 +61,22 @@ public class Project {
         this.gitURL = gitURL;
     }
 
-    public List<Font> getListFonts() {
-        return listFonts;
-    }
-
-    public void setListFonts(List<Font> listFonts) {
-        this.listFonts = listFonts;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", gitURL='" + gitURL + '\'' +
-                ", listFonts=" + listFonts +
-                '}';
-    }
+//    public List<Font> getListFonts() {
+//        return listFonts;
+//    }
+//
+//    public void setListFonts(List<Font> listFonts) {
+//        this.listFonts = listFonts;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Project{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                ", gitURL='" + gitURL + '\'' +
+//                ", listFonts=" + listFonts +
+//                '}';
+//    }
 }

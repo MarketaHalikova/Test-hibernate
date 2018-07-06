@@ -1,9 +1,17 @@
 package com.marketahalikova.hibernatetest.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Font {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, length = 11)
     private Long id;
+    @Column(name = "font_name", nullable = false)
     private String fontName;
+    @Column(name = "project_id")
     private Long projectId;
 
     public Font() {
