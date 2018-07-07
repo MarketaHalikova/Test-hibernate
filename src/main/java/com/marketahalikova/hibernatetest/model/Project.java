@@ -1,5 +1,7 @@
 package com.marketahalikova.hibernatetest.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +18,35 @@ public class Project {
     private String description;
     @Column(name = "url", nullable = false, length = 500)
     private String gitURL;
+    // bez fetchType eager je type Lazy, pri tom se nenacte list fontu pokud si o nej pred ukoncenim session nerekneme
+    @OneToMany (mappedBy = "project", fetch = FetchType.EAGER)
+    private List<Font> listFonts;
 
-//    private List<Font> listFonts;
-//
-//    public Project() {
-//        listFonts = new ArrayList<>();
-//    }
+    @OneToOne
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    private Maven maven;
+
+    @OneToOne
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    private Info info;
+
+
+    public Project() {
+        listFonts = new ArrayList<>();
+    }
 
     public Project(String name, String gitURL) {
-//        this();
+        this();
         this.name = name;
         this.gitURL = gitURL;
+    }
+
+    public Info getInfo() {
+        return info;
+    }
+
+    public void setInfo(Info info) {
+        this.info = info;
     }
 
     public Long getId() {
@@ -61,22 +81,37 @@ public class Project {
         this.gitURL = gitURL;
     }
 
-//    public List<Font> getListFonts() {
-//        return listFonts;
-//    }
-//
-//    public void setListFonts(List<Font> listFonts) {
-//        this.listFonts = listFonts;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Project{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", description='" + description + '\'' +
-//                ", gitURL='" + gitURL + '\'' +
-//                ", listFonts=" + listFonts +
-//                '}';
-//    }
+    public List<Font> getListFonts() {
+        return listFonts;
+    }
+
+    public void setListFonts(List<Font> listFonts) {
+        this.listFonts = listFonts;
+    }
+
+    public Maven getMaven() {
+        return maven;
+    }
+
+    public void setMaven(Maven maven) {
+        this.maven = maven;
+    }
+
+    public void addFont(Font font){
+        listFonts.add(font);
+        font.setProject(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", gitURL='" + gitURL + '\'' +
+                ", listFonts=" + listFonts +
+                ", maven=" + maven +
+                ", info=" + info +
+                '}';
+    }
 }

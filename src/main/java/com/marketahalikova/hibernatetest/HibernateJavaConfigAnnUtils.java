@@ -1,8 +1,6 @@
 package com.marketahalikova.hibernatetest;
 
-import com.marketahalikova.hibernatetest.model.Font;
-import com.marketahalikova.hibernatetest.model.Project;
-import com.marketahalikova.hibernatetest.model.User;
+import com.marketahalikova.hibernatetest.model.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -39,6 +37,9 @@ public class HibernateJavaConfigAnnUtils {
             configuration.addAnnotatedClass(User.class);
             configuration.addAnnotatedClass(Project.class);
             configuration.addAnnotatedClass(Font.class);
+            configuration.addAnnotatedClass(Maven.class);
+            configuration.addAnnotatedClass(Info.class);
+            configuration.addAnnotatedClass(Triplet.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             System.out.println("Hibernate Java Config serviceRegistry created");

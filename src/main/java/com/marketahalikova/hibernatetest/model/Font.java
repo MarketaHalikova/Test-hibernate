@@ -1,23 +1,53 @@
 package com.marketahalikova.hibernatetest.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Font {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true, length = 11)
     private Long id;
-    @Column(name = "font_name", nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @Column(name = "font_name")
     private String fontName;
-    @Column(name = "project_id")
-    private Long projectId;
+
+    @ManyToMany(targetEntity = Triplet.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "font_triplet",
+            joinColumns = { @JoinColumn(name = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "triplet_id")})
+
+//    pro hibernate radsi pouzivat set
+    private Set<Triplet> triplets;
 
     public Font() {
+        triplets = new HashSet<>();
     }
 
     public Font(String fontName) {
+        this();
+        this.fontName = fontName;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public String getFontName() {
+        return fontName;
+    }
+
+    public void setFontName(String fontName) {
         this.fontName = fontName;
     }
 
@@ -29,28 +59,21 @@ public class Font {
         this.id = id;
     }
 
-    public String getFontName() {
-        return fontName;
+    public Set<Triplet> getTriplets() {
+        return triplets;
     }
 
-    public void setFontName(String fontName) {
-        this.fontName = fontName;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setTriplets(Set<Triplet> triplets) {
+        this.triplets = triplets;
     }
 
     @Override
     public String toString() {
         return "Font{" +
                 "id=" + id +
+                ", project=" + project +
                 ", fontName='" + fontName + '\'' +
-                ", projectId=" + projectId +
+                ", triplets=" + triplets +
                 '}';
     }
 }
